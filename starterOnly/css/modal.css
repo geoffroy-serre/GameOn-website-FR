@@ -144,6 +144,11 @@ main {
 
 /* Modal form */
 
+.error {
+	font-size: 0.8rem;
+	color: #fe142f;
+}
+
 .button {
 	background: #fe142f;
 	margin-top: 0.5em;
