@@ -44,11 +44,11 @@ function closeModal() {
 }
 
 function isValidEmail(input) {
-	const emailErrorSpan = document.querySelector('.email');
+	const emailErrorSpan = document.querySelector(`.${input.name}`);
 	const regexValidator =
 		/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 	if (!regexValidator.test(input.value)) {
-		emailErrorSpan.innerHtml = "L'email dois être valide";
+		emailErrorSpan.innerHTML = "L'email dois être valide";
 		console.log(emailErrorSpan);
 		return false;
 	} else {
