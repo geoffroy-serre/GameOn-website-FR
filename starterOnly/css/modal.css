@@ -18,6 +18,7 @@ body {
 	font-family: var(--font-default);
 	font-size: 18px;
 	max-width: 1300px;
+
 	margin: 0 auto;
 }
 
@@ -99,9 +100,10 @@ img {
 		display: none;
 	}
 	.topnav a.icon {
-		float: right;
+		/* float: right; */
 		display: block;
-		margin-top: -15px;
+		/* top: 0; */
+		margin-top: -20%;
 	}
 	.header-logo > img {
 		width: 50%;
@@ -146,7 +148,7 @@ main {
 
 .error {
 	font-size: 0.8rem;
-	color: #fe142f;
+	color: #ff4e60;
 }
 
 .button {
@@ -183,7 +185,7 @@ main {
 	margin: 5% auto;
 	width: 100%;
 	max-width: 500px;
-	animation-name: modalopen;
+	/* animation-name: modalopen; */
 	animation-duration: var(--modal-duration);
 	background: #232323;
 	border-radius: 10px;
@@ -424,13 +426,13 @@ input[data-error]::after {
 	margin-bottom: 10px;
 }
 .hero-content {
-	padding: 51px 67px;
+	padding: 10% 10%;
 	grid-column: span 4;
 	background: #232323;
 	color: #fff;
 	position: relative;
 	text-align: left;
-	min-width: 424px;
+	min-width: 320px;
 }
 .hero-content::after {
 	content: '';
@@ -488,12 +490,25 @@ footer {
 	padding-right: 2vw;
 	margin: 0 20px;
 }
+@media screen and (max-width: 910px) {
+	.hero-headline {
+		font-size: 5rem;
+	}
+}
+@media screen and (max-width: 375px) {
+	main {
+		padding: 0;
+		margin: 0;
+	}
+}
 @media screen and (max-width: 800px) {
 	.hero-section {
+		width: 100%;
 		display: block;
 		box-shadow: unset;
 	}
 	.hero-content {
+		width: 100%;
 		background: #fff;
 		color: #000;
 		padding: 0;
@@ -505,14 +520,15 @@ footer {
 		display: none;
 	}
 	.hero-headline {
-		width: 90%;
+		width: 100%;
 		font-size: 3rem;
 		white-space: normal;
 	}
 	.hero-text {
-		width: 80%;
+		width: 100%;
 		font-size: 1.5rem;
 		white-space: normal;
+		padding: 0;
 	}
 	.hero-img img {
 		border-radius: 10px;
@@ -536,5 +552,15 @@ footer {
 	}
 	to {
 		opacity: 1;
+	}
+}
+
+@keyframes modalclose {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-150px);
 	}
 }
