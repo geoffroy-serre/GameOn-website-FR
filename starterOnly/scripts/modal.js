@@ -13,6 +13,9 @@ const content = document.querySelector('.content');
 const animationModalDuration = window
 	.getComputedStyle(document.body)
 	.getPropertyValue('--modal-duration');
+const locationInputs = document.querySelectorAll('input[name=location]');
+const tcuInput = document.querySelector('input[name = tcu]');
+const newsLetterInput = document.querySelector('input[name=newsletter');
 
 function editNav() {
 	let x = document.getElementById('myTopnav');
@@ -47,6 +50,14 @@ function launchModal() {
 	});
 	quantityInput.addEventListener('change', function () {
 		isValidQuantity(quantityInput);
+	});
+	locationInputs.forEach((i) =>
+		i.addEventListener('change', function () {
+			isOneLocationChecked(i);
+		})
+	);
+	tcuInput.addEventListener('change', function () {
+		isTcuChecked(tcuInput);
 	});
 	submitButton.addEventListener('click', function (event) {
 		validate(event);
@@ -132,6 +143,11 @@ function isValidDate(input) {
 	}
 }
 
+/**
+ * Check if quantity field is filled.
+ * @param String input field
+ * @returns boolean
+ */
 function isValidQuantity(input) {
 	const quantityErrorSpan = document.querySelector(`.${input.name}`);
 	if (input.value === '') {
@@ -143,19 +159,61 @@ function isValidQuantity(input) {
 	return true;
 }
 
-function isTcuChecked() {}
-function isOneLocationChecked() {}
+/**
+ * Check if one radio button is checked.
+ * Iterate along all radio button with name location.
+ * @returns boolean
+ */
+function isOneLocationChecked(input) {
+	let spanError = document.querySelector('.location');
+
+	if (input.checked) {
+		spanError.innerHTML = '';
+		return true;
+	} else {
+		spanError.innerHTML = 'Vous devez choisir une ville';
+		return false;
+	}
+}
+
+/**
+ * Check if TCUs are checked.
+ * @param String input field
+ * @returns boolean
+ */
+function isTcuChecked(input) {
+	const spanError = document.querySelector('.tcu');
+	if (input.checked) {
+		spanError.innerHTML = '';
+		return true;
+	} else {
+		spanError.innerHTML = "Vous devez accepter les conditions d'utilisation";
+		return false;
+	}
+}
 
 function validate(event) {
 	event.preventDefault();
+
 	if (
 		isValidInputText(firstNameInput) &&
 		isValidInputText(lastNameInput) &&
 		isValidEmail(emailInput) &&
 		isValidDate(dateInput) &&
-		isValidQuantity(quantityInput)
+		isValidQuantity(quantityInput) &&
+		Array.from(locationInputs).some((i) => i.checked) &&
+		isTcuChecked(tcuInput)
 	) {
-		alert(`Bienvenue votre inscription est prise en compte`);
+		alert(
+			`Bienvenue ${firstNameInput.value} ${
+				lastNameInput.value
+			} votre inscription est prise en compte.${
+				newsLetterInput.checked
+					? ` Vous recevrez la newsletter sur ${emailInput.value}`
+					: ' Vous avez choisi de ne pas recevoir la newsletter'
+			}`
+		);
+		document.querySelector('form').reset();
 		closeModal();
 	} else {
 		alert("Remplissez correctement les champs si'l vous plait.");
