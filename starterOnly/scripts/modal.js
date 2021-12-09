@@ -83,6 +83,12 @@ function closeAlertbox() {
 	alertBoxMessage.textContent = '';
 }
 
+function alertBox(message) {
+	alertBoxModal.style.display = 'block';
+
+	alertBoxMessage.textContent = message;
+}
+
 /**
  * Check if email is valid using regex RFC 5322 official standard.
  * @param  input Input field
@@ -195,11 +201,6 @@ function isTcuChecked(input) {
 		spanError.textContent = "Vous devez accepter les conditions d'utilisation";
 		return false;
 	}
-}
-
-function alertBox(message) {
-	alertBoxModal.style.display = 'block';
-	alertBoxMessage.textContent = message;
 }
 
 function validate(event) {
