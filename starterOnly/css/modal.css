@@ -169,6 +169,65 @@ main {
 	font-size: 16px;
 }
 
+.alertbox__background {
+	display: none;
+	z-index: 2;
+	position: fixed;
+	background-color: rgba(26, 39, 156, 0.4);
+	height: 100%;
+	width: 100%;
+	left: 0;
+	top: 0;
+}
+.alertbox {
+	min-width: 300px;
+	height: 100px;
+	background-color: #232323;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 95%;
+	border-radius: 10px;
+	color: #fff;
+	border: 2px solid #ff4e60;
+	font-size: 0.85rem;
+	padding: 10px;
+}
+.alertbox__close {
+	z-index: 2;
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 20px;
+	height: 20px;
+	opacity: 1;
+	cursor: pointer;
+	transform: scale(0.7);
+}
+.alertbox__close:before,
+.alertbox__close:after {
+	position: absolute;
+	left: 5px;
+	content: '';
+	height: 20px;
+	width: 3px;
+	background-color: #ff4e60;
+}
+.alertbox__close:before {
+	transform: rotate(45deg);
+}
+.alertbox__close:after {
+	transform: rotate(-45deg);
+}
+
+.alertbox__message {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	text-align: left;
+}
+
 .bground {
 	display: none;
 	position: fixed;
@@ -322,7 +381,7 @@ input[data-error]::after {
 .close:after {
 	position: absolute;
 	left: 15px;
-	content: ' ';
+	content: '';
 	height: 33px;
 	width: 3px;
 	background-color: #fff;

@@ -16,6 +16,10 @@ const animationModalDuration = window
 const locationInputs = document.querySelectorAll('input[name=location]');
 const tcuInput = document.querySelector('input[name = tcu]');
 const newsLetterInput = document.querySelector('input[name=newsletter');
+const alertBoxModal = document.querySelector('.alertbox__background');
+const alertBoxMessage = document.querySelector('.alertbox__message');
+
+const closeAlert = document.querySelector('.alertbox__close');
 
 function editNav() {
 	let x = document.getElementById('myTopnav');
@@ -35,33 +39,25 @@ modalBtn.forEach((btn) => btn.addEventListener('click', launchModal));
 function launchModal() {
 	modalbg.style.display = 'block';
 	content.style.animationName = 'modalopen';
+
 	closeBtn.addEventListener('click', closeModal);
-	firstNameInput.addEventListener('change', function () {
-		isValidInputText(firstNameInput);
-	});
-	lastNameInput.addEventListener('change', function () {
-		isValidInputText(lastNameInput);
-	});
-	emailInput.addEventListener('change', function () {
-		isValidEmail(emailInput);
-	});
-	dateInput.addEventListener('change', function () {
-		isValidDate(dateInput);
-	});
-	quantityInput.addEventListener('change', function () {
-		isValidQuantity(quantityInput);
-	});
-	locationInputs.forEach((i) =>
-		i.addEventListener('change', function () {
-			isOneLocationChecked(i);
-		})
+	closeAlert.addEventListener('click', closeAlertbox);
+	firstNameInput.addEventListener('change', () =>
+		isValidInputText(firstNameInput)
 	);
-	tcuInput.addEventListener('change', function () {
-		isTcuChecked(tcuInput);
-	});
-	submitButton.addEventListener('click', function (event) {
-		validate(event);
-	});
+	lastNameInput.addEventListener('change', () =>
+		isValidInputText(lastNameInput)
+	);
+	emailInput.addEventListener('change', () => isValidEmail(emailInput));
+	dateInput.addEventListener('keyup', () => isValidDate(dateInput));
+	quantityInput.addEventListener('change', () =>
+		isValidQuantity(quantityInput)
+	);
+	locationInputs.forEach((i) =>
+		i.addEventListener('change', () => isOneLocationChecked(i))
+	);
+	tcuInput.addEventListener('change', () => isTcuChecked(tcuInput));
+	submitButton.addEventListener('click', (event) => validate(event));
 }
 
 /**
@@ -72,9 +68,19 @@ function launchModal() {
  */
 function closeModal() {
 	content.style.animationName = 'modalclose';
-	setTimeout(function () {
-		modalbg.style.display = 'none';
-	}, parseFloat(animationModalDuration) * 1000 - 10);
+	setTimeout(
+		() => (modalbg.style.display = 'none'),
+		parseFloat(animationModalDuration) * 1000 - 10
+	);
+}
+
+/**
+ * Close alertbox modal by setting dysplay to none.
+ * Reset the content of alert on close.
+ */
+function closeAlertbox() {
+	alertBoxModal.style.display = 'none';
+	alertBoxMessage.textContent = '';
 }
 
 /**
@@ -87,10 +93,10 @@ function isValidEmail(input) {
 	const regexValidator =
 		/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 	if (!regexValidator.test(input.value)) {
-		emailErrorSpan.innerHTML = "L'email dois être valide";
+		emailErrorSpan.textContent = "L'email dois être valide";
 		return false;
 	} else {
-		emailErrorSpan.innerHTML = '';
+		emailErrorSpan.textContent = '';
 		return true;
 	}
 }
@@ -105,10 +111,10 @@ function isValidInputText(input) {
 	let inputName = '';
 	if (input.value.length < 2) {
 		input.name === 'first' ? (inputName = 'Prénom') : (inputName = 'Nom');
-		inputErrorSpan.innerHTML = `Veuillez entrer 2 caractères ou plus pour le champ du ${inputName}`;
+		inputErrorSpan.textContent = `Veuillez entrer 2 caractères ou plus pour le champ du ${inputName}`;
 		return false;
 	} else {
-		inputErrorSpan.innerHTML = '';
+		inputErrorSpan.textContent = '';
 		return true;
 	}
 }
@@ -130,15 +136,14 @@ function isValidDate(input) {
 			dateInput.getTime() > todayDate.getTime() ||
 			input.value !== dateInput.toISOString().split('T')[0]
 		) {
-			dateErrorSpan.innerHTML = 'Vérifiez votre date de naissance';
+			dateErrorSpan.textContent = 'Vérifiez votre date de naissance';
 			return false;
 		} else {
-			dateErrorSpan.innerHTML = '';
+			dateErrorSpan.textContent = '';
 			return true;
 		}
 	} catch (e) {
-		console.error(e);
-		dateErrorSpan.innerHTML = 'Vérifiez votre date de naissance';
+		dateErrorSpan.textContent = 'Vérifiez votre date de naissance';
 		return false;
 	}
 }
@@ -151,11 +156,11 @@ function isValidDate(input) {
 function isValidQuantity(input) {
 	const quantityErrorSpan = document.querySelector(`.${input.name}`);
 	if (input.value === '') {
-		quantityErrorSpan.innerHTML = 'Vérifier le nombre de vos participations';
+		quantityErrorSpan.textContent = 'Vérifier le nombre de vos participations';
 		console.log(input.value);
 		return false;
 	}
-	quantityErrorSpan.innerHTML = '';
+	quantityErrorSpan.textContent = '';
 	return true;
 }
 
@@ -168,10 +173,10 @@ function isOneLocationChecked(input) {
 	let spanError = document.querySelector('.location');
 
 	if (input.checked) {
-		spanError.innerHTML = '';
+		spanError.textContent = '';
 		return true;
 	} else {
-		spanError.innerHTML = 'Vous devez choisir une ville';
+		spanError.textContent = 'Vous devez choisir une ville';
 		return false;
 	}
 }
@@ -184,12 +189,17 @@ function isOneLocationChecked(input) {
 function isTcuChecked(input) {
 	const spanError = document.querySelector('.tcu');
 	if (input.checked) {
-		spanError.innerHTML = '';
+		spanError.textContent = '';
 		return true;
 	} else {
-		spanError.innerHTML = "Vous devez accepter les conditions d'utilisation";
+		spanError.textContent = "Vous devez accepter les conditions d'utilisation";
 		return false;
 	}
+}
+
+function alertBox(message) {
+	alertBoxModal.style.display = 'block';
+	alertBoxMessage.textContent = message;
 }
 
 function validate(event) {
@@ -204,7 +214,7 @@ function validate(event) {
 		Array.from(locationInputs).some((i) => i.checked) &&
 		isTcuChecked(tcuInput)
 	) {
-		alert(
+		alertBox(
 			`Bienvenue ${firstNameInput.value} ${
 				lastNameInput.value
 			} votre inscription est prise en compte.${
@@ -216,6 +226,6 @@ function validate(event) {
 		document.querySelector('form').reset();
 		closeModal();
 	} else {
-		alert("Remplissez correctement les champs si'l vous plait.");
+		alertBox("Remplissez correctement les champs s'il vous plait.");
 	}
 }
