@@ -21,6 +21,31 @@ const alertBoxMessage = document.querySelector('.alertbox__message');
 
 const closeAlert = document.querySelector('.alertbox__close');
 
+initEventListeners();
+
+/**
+ * Create all needed event listeners
+ */
+function initEventListeners() {
+	firstNameInput.addEventListener('change', () =>
+		isValidInputText(firstNameInput)
+	);
+	lastNameInput.addEventListener('change', () =>
+		isValidInputText(lastNameInput)
+	);
+	emailInput.addEventListener('change', () => isValidEmail(emailInput));
+	dateInput.addEventListener('keyUp', () => isValidDate(dateInput));
+	quantityInput.addEventListener('change', () =>
+		isValidQuantity(quantityInput)
+	);
+	locationInputs.forEach((e) => {
+		e.addEventListener('change', () => isOneLocationChecked());
+	});
+
+	tcuInput.addEventListener('change', () => isTcuChecked(tcuInput));
+	submitButton.addEventListener('click', (event) => validate(event));
+}
+
 function editNav() {
 	let x = document.getElementById('myTopnav');
 	if (x.className === 'topnav') {
@@ -42,22 +67,6 @@ function launchModal() {
 
 	closeBtn.addEventListener('click', closeModal);
 	closeAlert.addEventListener('click', closeAlertbox);
-	firstNameInput.addEventListener('change', () =>
-		isValidInputText(firstNameInput)
-	);
-	lastNameInput.addEventListener('change', () =>
-		isValidInputText(lastNameInput)
-	);
-	emailInput.addEventListener('change', () => isValidEmail(emailInput));
-	dateInput.addEventListener('keyup', () => isValidDate(dateInput));
-	quantityInput.addEventListener('change', () =>
-		isValidQuantity(quantityInput)
-	);
-	locationInputs.forEach((i) =>
-		i.addEventListener('change', () => isOneLocationChecked(i))
-	);
-	tcuInput.addEventListener('change', () => isTcuChecked(tcuInput));
-	submitButton.addEventListener('click', (event) => validate(event));
 }
 
 /**
@@ -161,7 +170,8 @@ function isValidDate(input) {
  */
 function isValidQuantity(input) {
 	const quantityErrorSpan = document.querySelector(`.${input.name}`);
-	if (input.value === '') {
+
+	if (input.value == '') {
 		quantityErrorSpan.textContent = 'Vérifier le nombre de vos participations';
 		console.log(input.value);
 		return false;
@@ -170,15 +180,15 @@ function isValidQuantity(input) {
 	return true;
 }
 
-/**
- * Check if one radio button is checked.
- * Iterate along all radio button with name location.
- * @returns boolean
- */
-function isOneLocationChecked(input) {
+// /**
+//  * Check if one radio button is checked.
+//  * Iterate along all radio button with name location.
+//  * @returns boolean
+//  */
+function isOneLocationChecked() {
 	let spanError = document.querySelector('.location');
 
-	if (input.checked) {
+	if (Array.from(locationInputs).some((i) => i.checked)) {
 		spanError.textContent = '';
 		return true;
 	} else {
@@ -205,7 +215,6 @@ function isTcuChecked(input) {
 
 function validate(event) {
 	event.preventDefault();
-
 	if (
 		isValidInputText(firstNameInput) &&
 		isValidInputText(lastNameInput) &&
